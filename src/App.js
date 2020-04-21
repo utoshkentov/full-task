@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Navigation from "./components/Navigation/Navigation";
+import Logo from "./components/Logo/Logo";
+import CardList from "./components/Cards/CardList";
+import Particles from "react-particles-js";
+import SignIn from "./components/SignIn/SignIn";
+import Register from "./components/Register/Register";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const particlesOptions = {
+    "particles": {
+        "number": {
+            "value": 80,
+            "density": {
+                "enable": true,
+                "value_area": 800
+            }
+        },
+    }
+}
+
+
+const App = () => {
+    const [route, setRoute] = useState('signin');
+
+    const onRouteChange = (route) => {
+        setRoute(route)
+    }
+
+    return (
+        <div className="App">
+            <Particles
+                className='particles'
+                params={particlesOptions}
+            />
+
+            <Navigation onRouteChange={onRouteChange}/>
+            {route === 'home' ?
+                (
+                    <>
+                        <Logo/>
+                        <CardList/>
+                    </>
+                ) : (
+                    route === 'signin'
+                        ? <SignIn onRouteChange={onRouteChange}/>
+                        : <Register onRouteChange={onRouteChange}/>
+                )
+
+
+            }
+
+
+        </div>
+    );
 }
 
 export default App;
